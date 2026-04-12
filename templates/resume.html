@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REDACTED — Resume</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 10.5px;
+    color: #111;
+    line-height: 1.45;
+    background: #fff;
+    padding: 44px 52px;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  /* ── NAME & CONTACT ─────────────────────────── */
+  .header {
+    text-align: center;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #111;
+  }
+
+  .header h1 {
+    font-family: 'Arial', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .contact-row {
+    font-family: 'Arial', sans-serif;
+    font-size: 9.5px;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+
+  .contact-row span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .contact-row .sep {
+    margin: 0 8px;
+    color: #999;
+  }
+
+  .contact-row a {
+    color: #1a1a8c;
+    text-decoration: none;
+  }
+
+  /* ── SECTION HEADINGS ───────────────────────── */
+  h2 {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #111;
+    border-bottom: 1px solid #333;
+    padding-bottom: 2px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  /* ── JOB ENTRY ──────────────────────────────── */
+  .job { margin-bottom: 11px; }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+
+  .job-left { display: flex; align-items: baseline; gap: 6px; }
+
+  .job-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #111;
+  }
+
+  .job-company {
+    font-family: 'Arial', sans-serif;
+    font-size: 10.5px;
+    font-weight: 400;
+    color: #333;
+  }
+
+  .job-date {
+    font-family: 'Arial', sans-serif;
+    font-size: 9.5px;
+    color: #555;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .job-summary {
+    font-size: 10.5px;
+    font-style: italic;
+    color: #222;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  ul {
+    padding-left: 16px;
+    margin-top: 3px;
+  }
+
+  ul li {
+    font-size: 10.5px;
+    margin-bottom: 2.5px;
+    line-height: 1.4;
+  }
+
+  /* ── SKILLS ─────────────────────────────────── */
+  .skills-list { list-style: none; padding: 0; }
+  .skills-list li {
+    font-size: 10.5px;
+    margin-bottom: 3px;
+    padding-left: 0;
+    line-height: 1.4;
+  }
+  .skills-list li strong {
+    font-family: 'Arial', sans-serif;
+    font-weight: 700;
+  }
+
+  /* ── EDUCATION ──────────────────────────────── */
+  .edu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .edu-degree {
+    font-family: 'Arial', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+  .edu-date {
+    font-family: 'Arial', sans-serif;
+    font-size: 9.5px;
+    color: #555;
+  }
+  .edu-school {
+    font-size: 10.5px;
+    color: #333;
+    margin-top: 1px;
+  }
+
+  /* ── PRINT ──────────────────────────────────── */
+  @media print {
+    body { padding: 32px 44px; }
+    a { color: #111 !important; text-decoration: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<div class="header">
+  <h1>REDACTED</h1>
+  <div class="contact-row">
+    <span>+1 (408) 483-1223</span>
+    <span class="sep">|</span>
+    <span><a href="mailto:alayparikh98@gmail.com">alayparikh98@gmail.com</a></span>
+    <span class="sep">|</span>
+    <span><a href="https://www.linkedin.com/in/alay-parikh/" target="_blank">linkedin.com/in/alay-parikh</a></span>
+    <span class="sep">|</span>
+    <span><a href="https://github.com/alayparikh" target="_blank">github.com/alayparikh</a></span>
+    <span class="sep">|</span>
+    <span>Atlanta, GA</span>
+  </div>
+</div>
+
+<!-- ══════════════════ EXPERIENCE ══════════════════ -->
+<h2>Professional Experience</h2>
+
+<!-- Mythics -->
+<div class="job">
+  <div class="job-header">
+    <div class="job-left">
+      <span class="job-title">Software Engineer</span>
+      <span class="job-company">— Mythics &nbsp;·&nbsp; Atlanta, GA</span>
+    </div>
+    <span class="job-date">Mar 2024 – Present</span>
+  </div>
+  <p class="job-summary">
+    Owned backend architecture and development of Java/Spring Boot microservices for a transaction-heavy
+    Order-to-Cash platform supporting 1,000+ restaurant locations, enabling real-time ordering,
+    fulfillment, and financial close.
+  </p>
+  <ul>
+    <li>Designed event-driven workflows for cart, checkout, inventory validation, and shipment tracking using AWS SNS and Lambda, decoupling synchronous dependencies and preventing cascading failures during third-party logistics outages.</li>
+    <li>Implemented transactionally consistent relational data models on Amazon RDS, eliminating data mismatches between order, shipment, and billing records and improving reliability of downstream financial processing.</li>
+    <li>Championed API-first and contract-driven development within agile Scrum teams, collaborating cross-functionally with product, QA, and distributed engineering teams to enable scalable integrations and faster feature delivery.</li>
+  </ul>
+</div>
+
+<!-- AWS -->
+<div class="job">
+  <div class="job-header">
+    <div class="job-left">
+      <span class="job-title">Software Development Engineer</span>
+      <span class="job-company">— Amazon Web Services &nbsp;·&nbsp; Atlanta, GA</span>
+    </div>
+    <span class="job-date">Sep 2022 – Mar 2024</span>
+  </div>
+  <p class="job-summary">
+    Designed and delivered IRIS, a Java/Spring-based service that detected infrastructure configuration
+    gaps at build time across isolated and advanced AWS regions, preventing production failures and
+    improving regional launch reliability.
+  </p>
+  <ul>
+    <li>Built and maintained RESTful APIs with strong validation and error handling, integrating automated testing (JUnit, API testing, BDD-style validation) into CI/CD pipelines to catch contract and configuration errors before deployment.</li>
+    <li>Designed SQL-backed data models and services to store and share onboarding and configuration data, eliminating manual configuration handoffs and enabling self-service integration for internal teams.</li>
+    <li>Implemented and operated event-driven workflows and ETL pipelines using AWS SNS and SQS, performing root-cause analysis on production incidents and shipping preventative reliability fixes.</li>
+    <li>Owned on-call responsibilities for production services, leading incident triage, post-incident reviews, and long-term stability fixes.</li>
+    <li>Built Python-based automation and data-processing pipelines, enabling scalable backend services and supporting integration of AI/ML-driven workflows with strong reliability and observability.</li>
+  </ul>
+</div>
+
+<!-- Infosys -->
+<div class="job">
+  <div class="job-header">
+    <div class="job-left">
+      <span class="job-title">Systems Engineer</span>
+      <span class="job-company">— Infosys Limited USA &nbsp;·&nbsp; Remote</span>
+    </div>
+    <span class="job-date">Jan 2022 – Sep 2022</span>
+  </div>
+  <ul>
+    <li>Built observability dashboards and automated alerting to surface service anomalies early, reducing manual incident triage effort and improving mean time to detection.</li>
+    <li>Analyzed logs and operational metrics to identify recurring failure patterns and drive targeted fixes that reduced repeat incidents.</li>
+    <li>Collaborated with cross-functional teams to support data-driven applications, leveraging logs, metrics, and automation workflows to improve system reliability and enable scalable backend integrations.</li>
+  </ul>
+</div>
+
+<!-- Terminal Trend -->
+<div class="job">
+  <div class="job-header">
+    <div class="job-left">
+      <span class="job-title">Software Engineer</span>
+      <span class="job-company">— Terminal Trend &nbsp;·&nbsp; Ahmedabad, India</span>
+    </div>
+    <span class="job-date">Mar 2019 – Dec 2019</span>
+  </div>
+  <ul>
+    <li>Developed backend services using Python and Flask, building RESTful APIs backed by NoSQL database to support a consumer-facing web platform.</li>
+    <li>Built full-stack features using React and REST APIs, integrating frontend with backend services to deliver responsive, user-facing functionality.</li>
+  </ul>
+</div>
+
+<!-- ══════════════════ SKILLS ══════════════════ -->
+<h2>Technical Skills</h2>
+<ul class="skills-list">
+  <li><strong>Languages &amp; Distributed Systems:</strong> Java, J2EE, Python, JavaScript, React, Spring Framework, Flask, REST APIs, Microservices</li>
+  <li><strong>Cloud &amp; Infrastructure:</strong> AWS (EC2, ECS, EKS, Lambda, SQS, SNS, CloudFormation, CloudWatch), Docker, Kubernetes</li>
+  <li><strong>Data &amp; Persistence:</strong> SQL, Amazon RDS, DynamoDB, MySQL, MongoDB, NoSQL, PL/SQL</li>
+  <li><strong>CI/CD, DevOps &amp; Observability:</strong> Jenkins, Terraform, GitHub, CI/CD Pipelines, CloudWatch, Splunk, Power BI, Tableau</li>
+  <li><strong>Testing &amp; Automation:</strong> JUnit, Selenium, Unit Testing, Integration Testing, API Testing (Postman), Cucumber-style frameworks</li>
+  <li><strong>AI &amp; Productivity Tools:</strong> LLM Integration, Claude Code, OpenAI API, GitHub Copilot, AI-assisted development, RAG, MCP/Agents</li>
+</ul>
+
+<!-- ══════════════════ EDUCATION ══════════════════ -->
+<h2>Education</h2>
+<div class="edu-row">
+  <span class="edu-degree">Master of Science in Computer Science</span>
+  <span class="edu-date">Dec 2021</span>
+</div>
+<p class="edu-school">University of Texas at Arlington, USA</p>
+
+</body>
+</html>
