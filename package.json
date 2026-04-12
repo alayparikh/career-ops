@@ -8,7 +8,9 @@
     "dedup": "node dedup-tracker.mjs",
     "merge": "node merge-tracker.mjs",
     "pdf": "node generate-pdf.mjs",
-    "sync-check": "node cv-sync-check.mjs"
+    "sync-check": "node cv-sync-check.mjs",
+    "scan":       "node portal-scanner.mjs",
+    "to-batch":   "node pipeline-to-batch.mjs"
   },
   "keywords": [
     "ai",
