@@ -35,3 +35,7 @@ career-dashboard
 cv.md
 *.pdf
 templates/resume.html
+config/profile.yml
+data/applications.md
+reports/
+output/
