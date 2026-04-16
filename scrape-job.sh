@@ -32,11 +32,44 @@ fi
 
 echo "✅ Job page scraped successfully"
 
-# Trim to 3000 chars to keep prompt size manageable
-JOB_TEXT=$(echo "$JOB_TEXT" | head -c 3000)
+# ── Quick pre-filter (saves time before calling Ollama) ──────
+echo "🔎 Pre-filtering job text..."
+
+JOB_TEXT_LOWER=$(echo "$JOB_TEXT" | tr '[:upper:]' '[:lower:]')
+
+# Must contain at least one of these
+REQUIRED_KEYWORDS=("java" "spring" "backend" "software engineer" "sde" "cloud" "aws" "microservice" "api")
+HAS_REQUIRED=false
+for kw in "${REQUIRED_KEYWORDS[@]}"; do
+  if echo "$JOB_TEXT_LOWER" | grep -q "$kw"; then
+    HAS_REQUIRED=true
+    break
+  fi
+done
+
+# Must NOT contain any of these
+REJECT_KEYWORDS=("no sponsorship" "must be authorized" "ios" "android" "ruby on rails")
+for kw in "${REJECT_KEYWORDS[@]}"; do
+  if echo "$JOB_TEXT_LOWER" | grep -q "$kw"; then
+    echo "⛔ Pre-filter REJECTED: found disqualifying keyword '$kw'"
+    echo "   Skipping AI evaluation to save time."
+    exit 0
+  fi
+done
+
+if [[ "$HAS_REQUIRED" == "false" ]]; then
+  echo "⛔ Pre-filter REJECTED: no required Java/Backend keywords found"
+  echo "   Skipping AI evaluation to save time."
+  exit 0
+fi
+
+echo "✅ Pre-filter PASSED — sending to Qwen for full evaluation"
+
+# Trim to 2000 chars to keep prompt size manageable
+JOB_TEXT=$(echo "$JOB_TEXT" | head -c 2000)
 
 # Step 2: Build the full prompt
-SYSTEM_CONTEXT=$(cat modes/oferta.md modes/_shared.md cv.md config/profile.yml)
+SYSTEM_CONTEXT=$(cat data/lean-context.md)
 
 FULL_PROMPT="${SYSTEM_CONTEXT}
 
@@ -53,8 +86,8 @@ ${JOB_TEXT}
 Evaluate this job using the 10-dimension scoring system. Output the full 6-block report in markdown."
 
 # Step 3: Save to temp files
-TEMP_PROMPT_FILE=$(mktemp /tmp/career-ops-prompt-XXXX.txt)
-TEMP_JSON_FILE=$(mktemp /tmp/career-ops-payload-XXXX.json)
+TEMP_PROMPT_FILE=$(mktemp /tmp/career-ops-prompt-XXXXXX.txt)
+TEMP_JSON_FILE=$(mktemp /tmp/career-ops-payload-XXXXXX.json)
 
 echo "$FULL_PROMPT" > "$TEMP_PROMPT_FILE"
 
@@ -104,6 +137,37 @@ echo "$EVAL_REPORT" > "$REPORT_FILE"
 echo ""
 echo "📄 Report saved → $REPORT_FILE"
 
+# Step 6b: Extract company name and generate tailored resume PDF
+COMPANY=$(echo "$EVAL_REPORT" | grep -i "company\|Company" | head -1 | sed 's/.*: *//' | sed 's/[^a-zA-Z0-9]/-/g' | tr '[:upper:]' '[:lower:]' | cut -c1-30)
+if [[ -z "$COMPANY" ]]; then
+  COMPANY=$(echo "$JOB_URL" | sed 's|https://||' | cut -d'/' -f2 | sed 's/[^a-zA-Z0-9]/-/g' | cut -c1-30)
+fi
+
+from weasyprint import HTML
+HTML(filename='templates/resume.html').write_pdf(output_path)
+
+DATE=$(date +%Y-%m-%d)
+PDF_FILE="output/resume-${COMPANY}-${DATE}.pdf"
+mkdir -p output
+
+echo "📝 Generating tailored resume PDF..."
+
+# Extract keywords from the evaluation report to inject into resume
+KEYWORDS=$(echo "$EVAL_REPORT" | grep -A5 -i "keyword\|Keywords" | tail -5 | tr '\n' ' ' | cut -c1-300)
+
+# Inject keywords into resume HTML and generate PDF
+if [[ -f "templates/resume.html" ]]; then
+  node generate-pdf.mjs templates/resume.html "$PDF_FILE" --format=letter
+  if [[ -f "$PDF_FILE" ]]; then
+    echo "✅ Resume saved → $PDF_FILE"
+  else
+    echo "⚠️  PDF generation failed — check templates/resume.html exists"
+  fi
+else
+  echo "⚠️  templates/resume.html not found — skipping PDF generation"
+  echo "   Create your resume template first: code templates/resume.html"
+fi
+
 # Step 7: Detect grade
 GRADE=$(echo "$EVAL_REPORT" | grep -oiE 'FINAL_GRADE:\s*[A-F]' | grep -oE '[A-F]$' | head -1)
 if [[ -z "$GRADE" ]]; then
@@ -121,7 +185,7 @@ echo ""
 # ("A" "B") = only A and B
 # ("A" "B" "C") = A, B, and C
 # ("A" "B" "C" "D" "F") = always apply
-AUTO_APPLY_GRADES=("A" "B" "C" "D" "F")
+AUTO_APPLY_GRADES=()
 
 SHOULD_APPLY=false
 for g in "${AUTO_APPLY_GRADES[@]}"; do

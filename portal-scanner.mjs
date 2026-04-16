@@ -8,7 +8,7 @@ const yaml = require('js-yaml');
 const PORTALS_FILE   = './portals.yml';
 const PIPELINE_FILE  = './data/pipeline.md';
 const HISTORY_FILE   = './data/scan-history.tsv';
-const MAX_JOBS_PER_COMPANY = 20;   // cap per company to avoid flooding
+const MAX_JOBS_PER_COMPANY = 15;   // cap per company to avoid flooding
 const HEADLESS = true;             // set false to watch browser
 
 // ── Load portals config ───────────────────────────────────────────────────────

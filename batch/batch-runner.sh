@@ -241,25 +241,9 @@ process_offer() {
 
   local log_file="$LOGS_DIR/${report_num}-${id}.log"
 
-  # Prepare system prompt with placeholders resolved
-  local resolved_prompt="$BATCH_DIR/.resolved-prompt-${id}.md"
-  sed \
-    -e "s|{{URL}}|${url}|g" \
-    -e "s|{{JD_FILE}}|${jd_file}|g" \
-    -e "s|{{REPORT_NUM}}|${report_num}|g" \
-    -e "s|{{DATE}}|${date}|g" \
-    -e "s|{{ID}}|${id}|g" \
-    "$PROMPT_FILE" > "$resolved_prompt"
-
   local exit_code=0
-  "$PROJECT_DIR/ollama-run.sh" \
-    --dangerously-skip-permissions \
-    --append-system-prompt-file "$resolved_prompt" \
-    "$prompt" \
-    > "$log_file" 2>&1 || exit_code=$?
-
-  # Cleanup resolved prompt
-  rm -f "$resolved_prompt"
+  
+  "$PROJECT_DIR/scrape-job.sh" "$url" > "$log_file" 2>&1 || exit_code=$?
 
   local completed_at
   completed_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
@@ -268,8 +252,7 @@ process_offer() {
     # Try to extract score from worker output
     local score="-"
     local score_match
-    score_match=$(grep -oP '"score":\s*[\d.]+' "$log_file" 2>/dev/null | head -1 | grep -oP '[\d.]+' || true)
-    if [[ -n "$score_match" ]]; then
+    score_match=$(grep -o '"score": *[0-9.]*' "$log_file" 2>/dev/null | head -1 | grep -o '[0-9.]*$' || true)    if [[ -n "$score_match" ]]; then
       score="$score_match"
     fi
 

@@ -4,7 +4,14 @@ When the candidate pastes an offer (text or URL), ALWAYS deliver the 6 blocks:
 
 ## Step 0 — Archetype Detection
 
-Classify the offer into one of the 6 archetypes (see `_shared.md`). If it's hybrid, indicate the 2 closest ones. This determines:
+Classify the offer into one of the 5 archetypes defined in `_shared.md`:
+- Backend Software Engineer
+- Java Engineer
+- Software Development Engineer (SDE)
+- Platform Engineer
+- Site Reliability Engineer (SRE)
+
+If it's hybrid, indicate the 2 closest ones. This determines:
 - Which proof points to prioritize in block B
 - How to rewrite the summary in block E
 - Which STAR stories to prepare in block F
@@ -13,8 +20,8 @@ Classify the offer into one of the 6 archetypes (see `_shared.md`). If it's hybr
 
 Table with:
 - Detected archetype
-- Domain (platform/agentic/LLMOps/ML/enterprise)
-- Function (build/consult/manage/deploy)
+- Domain (backend/distributed-systems/platform/cloud/reliability)
+- Function (build/design/maintain/optimize)
 - Seniority
 - Remote (full/hybrid/onsite)
 - Team size (if mentioned)
@@ -24,13 +31,18 @@ Table with:
 
 Read `cv.md`. Create a table mapping each JD requirement to exact lines from the CV.
 
-**Adapted to the archetype:**
-- If FDE → prioritize proof points of fast delivery and client-facing
-- If SA → prioritize system design and integrations
-- If PM → prioritize product discovery and metrics
-- If LLMOps → prioritize evals, observability, pipelines
-- If Agentic → prioritize multi-agent, HITL, orchestration
-- If Transformation → prioritize change management, adoption, scaling
+**Adapted to the archetype (from `_shared.md`):**
+- If Backend Engineer → prioritize scalable microservices, API design, system performance
+- If Java Engineer → prioritize Spring Boot, backend services, production Java systems
+- If SDE → prioritize problem-solving, coding efficiency, system design
+- If Platform Engineer → prioritize CI/CD pipelines, DevOps, deployment automation
+- If SRE → prioritize monitoring, incident response, debugging, reliability improvements
+
+**Always include in every evaluation:**
+- Java / Spring Boot evidence
+- AWS services used (SNS, SQS, Lambda, RDS, EC2)
+- System scale signals (e.g. "Supported 1,000+ locations")
+- Production experience (real systems, not academic projects)
 
 Section of **gaps** with mitigation strategy for each. For each gap:
 1. Is it a hard blocker or a nice-to-have?
@@ -41,7 +53,7 @@ Section of **gaps** with mitigation strategy for each. For each gap:
 ## Block C — Level and Strategy
 
 1. **Detected level** in the JD vs **candidate's natural level for that archetype**
-2. **Plan "sell senior without lying"**: specific phrases adapted to the archetype, concrete achievements to highlight, how to position founder experience as an advantage
+2. **Plan "sell senior without lying"**: specific phrases adapted to the archetype, concrete achievements to highlight. Use the cross-cutting advantage from `_shared.md`: *"Backend engineer with strong distributed systems and production experience"*
 3. **Plan "if they downlevel me"**: accept if comp is fair, negotiate review at 6 months, clear promotion criteria
 
 ## Block D — Comp and Demand
@@ -59,6 +71,13 @@ Table with data and cited sources. If no data, say so instead of inventing.
 |---|---------|---------------|-----------------|-----|
 | 1 | Summary | ... | ... | ... |
 | ... | ... | ... | ... | ... |
+
+**Mandatory keywords to inject in every CV tailoring (from `_shared.md`):**
+- Summary must mention: Java, Spring Boot, AWS, microservices, distributed systems
+- Skills must include: Java, Spring Boot, REST APIs, AWS (SNS/SQS/Lambda/RDS), PostgreSQL, CI/CD
+- Every bullet must prefer impact + scale over task description
+  - ✅ "Reduced API latency by 40% across 1,000+ locations"
+  - ❌ "Worked on backend APIs"
 
 Top 5 changes to CV + Top 5 changes to LinkedIn to maximize match.
 

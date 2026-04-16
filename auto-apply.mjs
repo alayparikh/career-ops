@@ -46,81 +46,255 @@ try {
   const currentURL = page.url();
   console.log('📄 Loaded:', currentURL);
 
-  if (currentURL.includes('lever.co')) {
-    console.log('🔧 Lever form detected');
-    const fileInput = page.locator('input[type="file"]').first();
-    if (await fileInput.count() > 0) {
-      await fileInput.setInputFiles(MY_INFO.resumePath);
-      console.log('📎 Resume uploaded — waiting for autofill...');
-      await page.waitForTimeout(4000);
-    }
-    await fill(page, 'input[name="name"]',               MY_INFO.fullName);
-    await fill(page, 'input[name="email"]',              MY_INFO.email);
-    await fill(page, 'input[name="phone"]',              MY_INFO.phone);
-    await fill(page, 'input[placeholder*="LinkedIn" i]', MY_INFO.linkedin);
-    await fill(page, 'input[placeholder*="GitHub" i]',   MY_INFO.github);
-    await fill(page, 'input[placeholder*="location" i]', MY_INFO.location);
-    await fill(page, 'input[placeholder*="city" i]',     MY_INFO.location);
-    await fill(page, 'input[name*="linkedin" i]',        MY_INFO.linkedin);
-    await fill(page, 'input[name*="github" i]',          MY_INFO.github);
+  // Click "Apply Now" button if present (HPE and similar job description pages)
+  const applyNowBtn = page.locator([
+    'a:has-text("Apply Now")',
+    'button:has-text("Apply Now")',
+    'a:has-text("Apply now")',
+    'button:has-text("Apply now")',
+    '[data-ph-id*="apply"]',
+    '.apply-button',
+    '#apply-button'
+  ].join(', ')).first();
 
-  } else if (currentURL.includes('greenhouse.io')) {
-    console.log('🔧 Greenhouse form detected');
-    await fill(page, '#first_name', MY_INFO.firstName);
-    await fill(page, '#last_name',  MY_INFO.lastName);
-    await fill(page, '#email',      MY_INFO.email);
-    await fill(page, '#phone',      MY_INFO.phone);
-    const resumeInput = page.locator('#resume_upload input[type="file"], #resume input[type="file"]').first();
-    if (await resumeInput.count() > 0) {
-      await resumeInput.setInputFiles(MY_INFO.resumePath);
-      console.log('📎 Resume uploaded');
-      await page.waitForTimeout(3000);
-    }
-    await fill(page, 'input[id*="linkedin" i]', MY_INFO.linkedin);
-    await fill(page, 'input[id*="github" i]',   MY_INFO.github);
-
-  } else if (currentURL.includes('workday.com') || currentURL.includes('myworkdayjobs.com')) {
-    console.log('⚠️  Workday detected — filling what we can...');
-    await page.waitForTimeout(3000);
-    await fill(page, 'input[data-automation-id="legalNameSection_firstName"]', MY_INFO.firstName);
-    await fill(page, 'input[data-automation-id="legalNameSection_lastName"]',  MY_INFO.lastName);
-    await fill(page, 'input[data-automation-id="email"]',                      MY_INFO.email);
-    await fill(page, 'input[data-automation-id="phone-number"]',               MY_INFO.phone);
-
-  } else {
-    console.log('⚠️  Unknown form — trying generic selectors...');
-    await fill(page, 'input[name*="first" i]',    MY_INFO.firstName);
-    await fill(page, 'input[name*="last" i]',     MY_INFO.lastName);
-    await fill(page, 'input[type="email"]',       MY_INFO.email);
-    await fill(page, 'input[type="tel"]',         MY_INFO.phone);
-    await fill(page, 'input[name*="linkedin" i]', MY_INFO.linkedin);
+  if (await applyNowBtn.count() > 0) {
+    console.log('🖱️  Clicking Apply Now button...');
+    await applyNowBtn.click();
+    await page.waitForTimeout(3000);  // wait for redirect to actual form
+    console.log('📄 Redirected to:', page.url());
   }
 
-  console.log('');
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  console.log('⏸️  REVIEW THE FORM IN THE BROWSER WINDOW');
-  console.log('   Press ENTER to SUBMIT ✅');
-  console.log('   Press Ctrl+C to CANCEL ❌');
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  // if (currentURL.includes('lever.co')) {
+  //   console.log('🔧 Lever form detected');
+  //   const fileInput = page.locator('input[type="file"]').first();
+  //   if (await fileInput.count() > 0) {
+  //     await fileInput.setInputFiles(MY_INFO.resumePath);
+  //     console.log('📎 Resume uploaded — waiting for autofill...');
+  //     await page.waitForTimeout(4000);
+  //   }
+  //   await fill(page, 'input[name="name"]',               MY_INFO.fullName);
+  //   await fill(page, 'input[name="email"]',              MY_INFO.email);
+  //   await fill(page, 'input[name="phone"]',              MY_INFO.phone);
+  //   await fill(page, 'input[placeholder*="LinkedIn" i]', MY_INFO.linkedin);
+  //   await fill(page, 'input[placeholder*="GitHub" i]',   MY_INFO.github);
+  //   await fill(page, 'input[placeholder*="location" i]', MY_INFO.location);
+  //   await fill(page, 'input[placeholder*="city" i]',     MY_INFO.location);
+  //   await fill(page, 'input[name*="linkedin" i]',        MY_INFO.linkedin);
+  //   await fill(page, 'input[name*="github" i]',          MY_INFO.github);
 
-  await waitForEnter();
+  // } else if (currentURL.includes('greenhouse.io')) {
+  //   console.log('🔧 Greenhouse form detected');
+  //   await fill(page, '#first_name', MY_INFO.firstName);
+  //   await fill(page, '#last_name',  MY_INFO.lastName);
+  //   await fill(page, '#email',      MY_INFO.email);
+  //   await fill(page, '#phone',      MY_INFO.phone);
+  //   const resumeInput = page.locator('#resume_upload input[type="file"], #resume input[type="file"]').first();
+  //   if (await resumeInput.count() > 0) {
+  //     await resumeInput.setInputFiles(MY_INFO.resumePath);
+  //     console.log('📎 Resume uploaded');
+  //     await page.waitForTimeout(3000);
+  //   }
+  //   await fill(page, 'input[id*="linkedin" i]', MY_INFO.linkedin);
+  //   await fill(page, 'input[id*="github" i]',   MY_INFO.github);
+
+  // } else if (currentURL.includes('workday.com') || currentURL.includes('myworkdayjobs.com')  || currentURL.includes('wd')) {
+  //   console.log('⚠️  Workday detected — filling what we can...');
+  //   await page.waitForTimeout(3000);
+  //   await fill(page, 'input[data-automation-id="legalNameSection_firstName"]', MY_INFO.firstName);
+  //   await fill(page, 'input[data-automation-id="legalNameSection_lastName"]',  MY_INFO.lastName);
+  //   await fill(page, 'input[data-automation-id="email"]',                      MY_INFO.email);
+  //   await fill(page, 'input[data-automation-id="phone-number"]',               MY_INFO.phone);
+
+  // } else {
+  //   console.log('⚠️  Unknown form — trying generic selectors...');
+  //   await fill(page, 'input[name*="first" i]',    MY_INFO.firstName);
+  //   await fill(page, 'input[name*="last" i]',     MY_INFO.lastName);
+  //   await fill(page, 'input[type="email"]',       MY_INFO.email);
+  //   await fill(page, 'input[type="tel"]',         MY_INFO.phone);
+  //   await fill(page, 'input[name*="linkedin" i]', MY_INFO.linkedin);
+  // }
+
+  // console.log('');
+  // console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  // console.log('⏸️  REVIEW THE FORM IN THE BROWSER WINDOW');
+  // console.log('   Press ENTER to SUBMIT ✅');
+  // console.log('   Press Ctrl+C to CANCEL ❌');
+  // console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  // await waitForEnter();
+
+  // ── Smart Generic Form Filler ─────────────────────────────────────────────────
+console.log('🧠 Smart form filler running...');
+await page.waitForTimeout(2000);
+
+// Upload resume first — works on any site
+const fileInputs = page.locator('input[type="file"]');
+if (await fileInputs.count() > 0) {
+  await fileInputs.first().setInputFiles(MY_INFO.resumePath);
+  console.log('📎 Resume uploaded — waiting for autofill...');
+  await page.waitForTimeout(4000);
+}
+
+// Get ALL inputs/selects/textareas on page
+const fields = await page.evaluate(() => {
+  const results = [];
+
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    if (el.type === 'hidden' || el.type === 'file' || el.type === 'submit'
+        || el.type === 'button' || el.type === 'checkbox' || el.type === 'radio') return;
+
+    // Find the best label for this field
+    let label = '';
+
+    // Method 1: <label for="id">
+    if (el.id) {
+      const lbl = document.querySelector(`label[for="${el.id}"]`);
+      if (lbl) label = lbl.innerText.trim();
+    }
+
+    // Method 2: aria-label
+    if (!label && el.getAttribute('aria-label')) {
+      label = el.getAttribute('aria-label');
+    }
+
+    // Method 3: placeholder
+    if (!label && el.placeholder) {
+      label = el.placeholder;
+    }
+
+    // Method 4: name or id as last resort
+    if (!label) label = el.name || el.id || '';
+
+    results.push({
+      tag:         el.tagName.toLowerCase(),
+      type:        el.type || '',
+      id:          el.id || '',
+      name:        el.name || '',
+      placeholder: el.placeholder || '',
+      label:       label.toLowerCase(),
+      value:       el.value || ''
+    });
+  });
+
+  return results;
+});
+
+console.log(`📋 Found ${fields.length} fillable fields on page`);
+
+// ── Fill each field based on label keyword matching ───────────────────────────
+for (const field of fields) {
+  const l = field.label;     // already lowercased
+  const n = field.name.toLowerCase();
+  const id = field.id.toLowerCase();
+  const hint = `${l} ${n} ${id}`;  // combined hint string to match against
+
+  let value = null;
+
+  // Name fields
+  if (/first.?name|given.?name|fname/.test(hint))        value = MY_INFO.firstName;
+  else if (/last.?name|surname|family.?name|lname/.test(hint)) value = MY_INFO.lastName;
+  else if (/^name$|full.?name|your name/.test(hint))     value = MY_INFO.fullName;
+
+  // Contact
+  else if (/email/.test(hint))                           value = MY_INFO.email;
+  else if (/phone|mobile|cell|tel/.test(hint))           value = MY_INFO.phone;
+
+  // Location
+  else if (/address.?line.?1|street.?address|address1/.test(hint)) value = '6465 Riverchase Pkwy';
+  else if (/^city$|city/.test(hint))                     value = MY_INFO.location.split(',')[0].trim();
+  else if (/zip|postal/.test(hint))                      value = '30328';
+
+  // Professional
+  else if (/linkedin/.test(hint))                        value = MY_INFO.linkedin;
+  else if (/github/.test(hint))                          value = MY_INFO.github;
+  else if (/website|portfolio|personal.?url/.test(hint)) value = MY_INFO.linkedin;
+
+  // Visa / Work Authorization — always "yes" to sponsorship question
+  else if (/sponsorship|visa|work.?auth|authorized|eligible/.test(hint)) value = null; // handle dropdowns separately
+
+  if (value && field.tag === 'input') {
+    try {
+      const selector = field.id
+        ? `#${field.id}`
+        : field.name
+          ? `[name="${field.name}"]`
+          : null;
+      if (selector) {
+        await page.fill(selector, value);
+        console.log(`  ✏️  "${field.label || field.name}" → "${value}"`);
+      }
+    } catch(e) {
+      console.log(`  ⚠️  Could not fill "${field.label}": ${e.message}`);
+    }
+  }
+
+  // Handle <select> dropdowns
+  if (field.tag === 'select') {
+    let selectValue = null;
+
+    if (/state|province/.test(hint))                     selectValue = 'Georgia';
+    else if (/country/.test(hint))                       selectValue = 'United States';
+    else if (/sponsorship|visa|authorized/.test(hint))   selectValue = 'Yes';
+    else if (/gender/.test(hint))                        selectValue = 'Decline';
+    else if (/veteran/.test(hint))                       selectValue = 'I am not';
+    else if (/disability/.test(hint))                    selectValue = 'No';
+
+    if (selectValue) {
+      const selector = field.id ? `#${field.id}` : `[name="${field.name}"]`;
+      try {
+        await page.selectOption(selector, { label: new RegExp(selectValue, 'i') })
+          .catch(() => page.selectOption(selector, { value: selectValue }))
+          .catch(() => console.log(`  ⚠️  Could not select "${selectValue}" for "${field.label}"`));
+        console.log(`  📋 "${field.label || field.name}" → "${selectValue}"`);
+      } catch(e) {}
+    }
+  }
+}
+
+// ── Handle "Next" button for multi-step forms (HPE, Taleo, iCIMS) ─────────────
+const nextBtn = page.locator([
+  'button:has-text("Next")',
+  'button:has-text("Continue")',
+  'input[value="Next"]',
+  'a:has-text("Next step")',
+].join(', ')).first();
+
+if (await nextBtn.count() > 0) {
+  console.log('');
+  console.log('⚠️  Multi-step form detected — review Step 1 first');
+  console.log('   Press ENTER to go to Next Step, Ctrl+C to cancel');
+}
 
   const submitBtn = page.locator([
-    'button[type="submit"]',
+    'button[type="submit"]:not(:has-text("Next")):not(:has-text("Continue"))',
     'input[type="submit"]',
-    'button:has-text("Submit")',
-    'button:has-text("Apply")',
+    'button:has-text("Submit Application")',
     'button:has-text("Send Application")',
+    'button:has-text("Submit my application")',
+    'button:has-text("Complete Application")',
   ].join(', ')).first();
 
   if (await submitBtn.count() > 0) {
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('⏸️  REVIEW THE FORM IN THE BROWSER WINDOW');
+    console.log('   Press ENTER to SUBMIT ✅');
+    console.log('   Press Ctrl+C to CANCEL ❌');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    await waitForEnter();
     await submitBtn.click();
     console.log('🚀 Application submitted!');
     await page.waitForTimeout(4000);
     await logToTracker(JOB_URL);
   } else {
-    console.log('❌ Submit button not found — click it manually in the browser.');
-    await page.waitForTimeout(30000);
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('⏸️  No submit button found automatically.');
+    console.log('   Click Submit manually in the browser.');
+    console.log('   Then press ENTER here to log it. ✅');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    await waitForEnter();
+    await logToTracker(JOB_URL);
   }
 
 } catch (err) {

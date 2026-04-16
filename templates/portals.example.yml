@@ -59,7 +59,6 @@ title_filter:
     - "Transformation"
   negative:
     # [CUSTOMIZE] Add keywords for roles you want to exclude
-    - "Junior"
     - "Intern"
     - ".NET"
     - "Java "
