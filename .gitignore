@@ -34,3 +34,4 @@ node_modules/
 career-dashboard
 cv.md
 *.pdf
+templates/resume.html
