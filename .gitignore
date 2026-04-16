@@ -33,3 +33,4 @@ node_modules/
 .claude/memory/
 career-dashboard
 cv.md
+*.pdf
