@@ -1,7 +1,7 @@
 # Career-Ops: AI-Powered Job Search Pipeline
 
 ## Overview
-Career-Ops is an AI-driven job search assistant for a Java Backend Engineer profile. It evaluates job offers, generates tailored CVs, and tracks applications using local Ollama models. The system reasons carefully about fit between job descriptions and the candidate's profile, ensuring honest assessments without inventing experience.
+Career-Ops is an AI-driven job search assistant for a Java Backend Engineer profile (You can change it as per your need). It evaluates job offers, generates tailored CVs, and tracks applications using local Ollama models. The system reasons carefully about the fit between job descriptions and the candidate's profile, ensuring honest assessments without inventing experience.
 
 ## Features
 - Job evaluation across weighted dimensions with a final grade
@@ -13,7 +13,7 @@ Career-Ops is an AI-driven job search assistant for a Java Backend Engineer prof
 
 ## Installation
 1. Install Ollama: `brew install ollama`
-2. Pull the model: `ollama pull qwen2.5-coder:7b`
+2. Pull the model: `ollama pull qwen3.5` (Or any other model you want to use)
 3. Install dependencies: `npm install`
 4. Configure profile: edit `config/profile.yml`
 5. Make scripts executable: `chmod +x ollama-run.sh test-ollama.sh`
